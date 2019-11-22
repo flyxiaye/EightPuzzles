@@ -126,10 +126,12 @@
     <ClCompile Include="DataStruct.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyList.cpp" />
+    <ClCompile Include="ProQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStruct.h" />
     <ClInclude Include="MyList.h" />
+    <ClInclude Include="ProQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
