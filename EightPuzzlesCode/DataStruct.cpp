@@ -5,6 +5,7 @@
 EightPullze Target =
 {
 	{1, 2, 3, 8, 0, 4, 7, 6, 5},
+	123804765,
 	0, 0, 0
 };		//Ä¿±ê×´Ì¬
 
@@ -72,4 +73,19 @@ void PrintEightPullze(EightPullze* ei)
 		if ((i + 1) % 3 == 0)
 			printf("\n");
 	}
+}
+
+void getCode(EightPullze* ei)
+{
+	int v = 0;
+	for (int i = 0; i < NUM; i++)
+		v = v * 10 + ei->data[i];
+	ei->code = v;
+}
+
+void copyNode(EightPullze* src, EightPullze* dst)
+{
+	dst->depth = src->depth;
+	dst->fValue = src->fValue;
+	dst->father = src->father;
 }

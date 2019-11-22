@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eightpu", "eightpu\eightpu.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickSearchEightPullzeByMap", "QuickSearchEightPullzeByMap\QuickSearchEightPullzeByMap.vcxproj", "{B5A122BD-FBDF-4B8C-AC90-2723E67BE1CA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EightPuzzlesCode", "EightPuzzlesCode\EightPuzzlesCode.vcxproj", "{3C11F18B-9281-4D03-866F-9107AACE9196}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{B5A122BD-FBDF-4B8C-AC90-2723E67BE1CA}.Release|x64.Build.0 = Release|x64
 		{B5A122BD-FBDF-4B8C-AC90-2723E67BE1CA}.Release|x86.ActiveCfg = Release|Win32
 		{B5A122BD-FBDF-4B8C-AC90-2723E67BE1CA}.Release|x86.Build.0 = Release|Win32
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Debug|x64.ActiveCfg = Debug|x64
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Debug|x64.Build.0 = Debug|x64
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Debug|x86.Build.0 = Debug|Win32
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Release|x64.ActiveCfg = Release|x64
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Release|x64.Build.0 = Release|x64
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Release|x86.ActiveCfg = Release|Win32
+		{3C11F18B-9281-4D03-866F-9107AACE9196}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

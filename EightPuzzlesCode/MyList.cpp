@@ -89,7 +89,7 @@ int find(List* l, _elem e)
 	int idx = 0;
 	Node* p = l->head->successor;
 	while (p) {
-		if (!notEquals(p->data, e))
+		if (p->data->code == e->code)
 			return idx;
 		p = p->successor;
 		idx++;

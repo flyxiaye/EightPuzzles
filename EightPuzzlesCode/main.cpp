@@ -13,13 +13,14 @@ void AA(void)
 	//start
 	//定义初始状态
 	EightPullze Begin = {
-		//{ 1, 5, 6, 2, 7, 4, 0, 3, 8 },//22
-		{ 8, 7, 3, 1, 6, 0, 5, 4, 2 },//21
+		{ 1, 5, 6, 2, 7, 4, 0, 3, 8 },//22
+		//{ 8, 7, 3, 1, 6, 0, 5, 4, 2 },//21
 		//{ 7, 2, 3, 8, 1, 6, 0, 5, 4 },//18
 		//{ 7, 2, 3, 8, 1, 0, 6, 5, 4 },//13步
 		//{4, 2, 5, 7, 0, 1, 3, 8, 6},
 		//{0 ,1, 2, 3, 4, 5, 6, 7, 8},
 	//{ 2,8,0,1,6,3,7,5,4},
+	//280163754,
 		0, 0, NULL
 	};
 	Begin.fValue = Begin.depth + notEquals(&Begin, &Target);
@@ -51,6 +52,7 @@ void AA(void)
 			EightPullze* left = createEightPullze(ei);
 			if (left) {
 				blankLeft(left, blankIdx);
+				getCode(left);
 				left->fValue = getfValue(left);
 				int poIdx = find(po, left);
 				int pcIdx = find(pc, left);
@@ -60,9 +62,7 @@ void AA(void)
 					EightPullze* oldLeft = getValue(pc, pcIdx);
 					if (left->fValue <= oldLeft->fValue) {
 						erase(pc, pcIdx);
-						oldLeft->depth = left->depth;
-						oldLeft->fValue = left->fValue;
-						oldLeft->father = left->father;
+						copyNode(left, oldLeft);
 						free(left);
 						push_back(po, oldLeft);
 					}
@@ -71,9 +71,7 @@ void AA(void)
 				else { 			//不在close表
 					EightPullze* oldLeft = getValue(po, poIdx);
 					if (left->fValue <= oldLeft->fValue) {
-						oldLeft->depth = left->depth;
-						oldLeft->fValue = left->fValue;
-						oldLeft->father = left->father;
+						copyNode(left, oldLeft);
 						free(left);
 					}
 					else free(left);
@@ -84,6 +82,7 @@ void AA(void)
 			EightPullze* up = createEightPullze(ei);
 			if (up) {
 				blankUp(up, blankIdx);
+				getCode(up);
 				up->fValue = getfValue(up);
 				int poIdx = find(po, up);
 				int pcIdx = find(pc, up);
@@ -93,9 +92,7 @@ void AA(void)
 					EightPullze* oldUp = getValue(pc, pcIdx);
 					if (up->fValue <= oldUp->fValue) {
 						erase(pc, pcIdx);
-						oldUp->depth = up->depth;
-						oldUp->fValue = up->fValue;
-						oldUp->father = up->father;
+						copyNode(up, oldUp);
 						free(up);
 						push_back(po, oldUp);
 					}
@@ -104,9 +101,7 @@ void AA(void)
 				else {				//不在close表
 					EightPullze* oldUp = getValue(po, poIdx);
 					if (up->fValue <= oldUp->fValue) {
-						oldUp->depth = up->depth;
-						oldUp->fValue = up->fValue;
-						oldUp->father = up->father;
+						copyNode(up, oldUp);
 						free(up);
 					}
 					else free(up);
@@ -117,6 +112,7 @@ void AA(void)
 			EightPullze* right = createEightPullze(ei);
 			if (right) {
 				blankRight(right, blankIdx);
+				getCode(right);
 				right->fValue = getfValue(right);
 				int poIdx = find(po, right);
 				int pcIdx = find(pc, right);
@@ -126,9 +122,7 @@ void AA(void)
 					EightPullze* oldRight = getValue(pc, pcIdx);
 					if (right->fValue <= oldRight->fValue) {
 						erase(pc, pcIdx);
-						oldRight->depth = right->depth;
-						oldRight->fValue = right->fValue;
-						oldRight->father = right->father;
+						copyNode(right, oldRight);
 						free(right);
 						push_back(po, oldRight);
 					}
@@ -137,9 +131,7 @@ void AA(void)
 				else {				//不在close表
 					EightPullze* oldRight = getValue(po, poIdx);
 					if (right->fValue <= oldRight->fValue) {
-						oldRight->depth = right->depth;
-						oldRight->fValue = right->fValue;
-						oldRight->father = right->father;
+						copyNode(right, oldRight);
 						free(right);
 					}
 					else free(right);
@@ -150,6 +142,7 @@ void AA(void)
 			EightPullze* down = createEightPullze(ei);
 			if (down) {
 				blankDown(down, blankIdx);
+				getCode(down);
 				down->fValue = getfValue(down);
 				int poIdx = find(po, down);
 				int pcIdx = find(pc, down);
@@ -159,9 +152,7 @@ void AA(void)
 					EightPullze* oldDown = getValue(pc, pcIdx);
 					if (down->fValue <= oldDown->fValue) {
 						erase(pc, pcIdx);
-						oldDown->depth = down->depth;
-						oldDown->fValue = down->fValue;
-						oldDown->father = down->father;
+						copyNode(down, oldDown);
 						free(down);
 						push_back(po, oldDown);
 					}
@@ -171,9 +162,7 @@ void AA(void)
 					EightPullze* oldDown = getValue(po, poIdx);
 					if (down->fValue <= oldDown->fValue)
 					{
-						oldDown->depth = down->depth;
-						oldDown->fValue = down->fValue;
-						oldDown->father = down->father;
+						copyNode(down, oldDown);
 						free(down);
 					}
 					else free(down);
