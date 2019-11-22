@@ -13,6 +13,7 @@ int isEmpty(MinPQ* mp)
 }
 void insertPQ(MinPQ* mp, _elem e)
 {
+	//resize(mp);
 	mp->pq[++mp->size] = e;
 	swim(mp, mp->size);
 }
@@ -21,11 +22,19 @@ _elem delMin(MinPQ* mp)
 	_elem v = mp->pq[1];
 	mp->pq[1] = mp->pq[mp->size--];
 	sink(mp, 1);
+	//resize(mp);
 	return v;
+}
+void delElem(MinPQ* mp, int k)
+{
+	mp->pq[k] = mp->pq[mp->size--];
+	sink(mp, k);
+	//resize(mp);
 }
 int larger(MinPQ* mp, int i, int j)
 {
 	return mp->pq[i]->fValue > mp->pq[j]->fValue;
+	//return mp->pq[i] > mp->pq[j];
 }
 void exch(MinPQ* mp, int i, int j)
 {
@@ -52,5 +61,34 @@ void sink(MinPQ* mp, int k)
 		if (!larger(mp, k, j)) return;
 		exch(mp, k, j);
 		k = j;
+	}
+}
+
+int find(MinPQ* mp, _elem e)
+{
+	for (int i = 1; i <= mp->size; i++)
+		if (mp->pq[i]->code == e->code)
+			return i;
+	return -1;
+}
+void resize(MinPQ* mp)
+{
+	if (mp->size >= mp->capacity)
+	{
+		mp->capacity = mp->capacity << 1;
+		_elem* tmp = (_elem*)malloc(mp->capacity * sizeof(_elem));
+		for (int i = 1; i <= mp->size; i++)
+			tmp[i] = mp->pq[i];
+		free(mp->pq);
+		mp->pq = tmp;
+	}
+	else if (mp->size < (mp->capacity >> 1))
+	{
+		mp->capacity = mp->capacity >> 1;
+		_elem* tmp = (_elem*)malloc(mp->capacity * sizeof(_elem));
+		for (int i = 1; i <= mp->size; i++)
+			tmp[i] = mp->pq[i];
+		free(mp->pq);
+		mp->pq = tmp;
 	}
 }

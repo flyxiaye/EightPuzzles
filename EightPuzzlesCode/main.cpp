@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Windows.h>
 #include "MyList.h"
+#include "ProQueue.h"
 
 
 using std::cout;
@@ -8,6 +9,178 @@ using std::endl;
 
 #define SEARCH_DEPTH 25
 
+
+void AA_PQ(void)
+{
+	//start
+	//定义初始状态
+	EightPullze Begin = {
+		{ 1, 5, 6, 2, 7, 4, 0, 3, 8 },//22
+		//{ 8, 7, 3, 1, 6, 0, 5, 4, 2 },//21
+		//{ 7, 2, 3, 8, 1, 6, 0, 5, 4 },//18
+		//{ 7, 2, 3, 8, 1, 0, 6, 5, 4 },//13步
+		//{4, 2, 5, 7, 0, 1, 3, 8, 6},
+		//{0 ,1, 2, 3, 4, 5, 6, 7, 8},
+	//{ 2,8,0,1,6,3,7,5,4},
+	//280163754,
+		0, 0, NULL
+	};
+	Begin.fValue = Begin.depth + notEquals(&Begin, &Target);
+	EightPullze* ei = NULL;
+	MinPQ Open, Close, * po, * pc;
+	po = &Open;
+	pc = &Close;
+	createMinPQ(po, 100000);
+	createMinPQ(pc, 100000);
+	insertPQ(po, &Begin);
+	while (!isEmpty(po)) {
+		ei = delMin(po);
+		insertPQ(pc, ei);
+		if (!notEquals(ei, &Target))  //匹配成功
+			break;
+		if (ei->depth > SEARCH_DEPTH) {
+			printf("超出搜索深度%d\n", SEARCH_DEPTH);
+			break;
+		}
+		//扩展节点
+		int blankIdx = 0;
+		for (; blankIdx < NUM; blankIdx++) {
+			if (ei->data[blankIdx] == 0)
+				break;
+		}
+		if ((blankIdx % 3) != 0) {	//空格不在左边缘
+			EightPullze* left = createEightPullze(ei);
+			if (left) {
+				blankLeft(left, blankIdx);
+				getCode(left);
+				left->fValue = getfValue(left);
+				int poIdx = find(po, left);
+				int pcIdx = find(pc, left);
+				if (-1 == poIdx && -1 == pcIdx)	//不在open和close表
+					insertPQ(po, left);
+				else if (-1 == poIdx) {	//不在open表 
+					EightPullze* oldLeft = pc->pq[pcIdx];
+					if (left->fValue <= oldLeft->fValue) {
+						delElem(pc, pcIdx);
+						copyNode(left, oldLeft);
+						free(left);
+						insertPQ(po, oldLeft);
+					}
+					else free(left);
+				}
+				else { 			//不在close表
+					EightPullze* oldLeft = po->pq[poIdx];
+					if (left->fValue <= oldLeft->fValue) {
+						copyNode(left, oldLeft);
+						free(left);
+					}
+					else free(left);
+				}
+			}
+		}
+		if (blankIdx > 2) {		//空格不在上边缘
+			EightPullze* up = createEightPullze(ei);
+			if (up) {
+				blankUp(up, blankIdx);
+				getCode(up);
+				up->fValue = getfValue(up);
+				int poIdx = find(po, up);
+				int pcIdx = find(pc, up);
+				if (-1 == poIdx && -1 == pcIdx)	//不在open和close表
+					insertPQ(po, up);
+				else if (-1 == poIdx) {	//不在open表 
+					EightPullze* oldUp = pc->pq[pcIdx];
+					if (up->fValue <= oldUp->fValue) {
+						delElem(pc, pcIdx);
+						copyNode(up, oldUp);
+						free(up);
+						insertPQ(po, oldUp);
+					}
+					else free(up);
+				}
+				else {				//不在close表
+					EightPullze* oldUp = po->pq[poIdx];
+					if (up->fValue <= oldUp->fValue) {
+						copyNode(up, oldUp);
+						free(up);
+					}
+					else free(up);
+				}
+			}
+		}
+		if (((blankIdx + 1) % 3) != 0) { //空格不在右边缘
+			EightPullze* right = createEightPullze(ei);
+			if (right) {
+				blankRight(right, blankIdx);
+				getCode(right);
+				right->fValue = getfValue(right);
+				int poIdx = find(po, right);
+				int pcIdx = find(pc, right);
+				if (-1 == poIdx && -1 == pcIdx)	//不在open和close表
+					insertPQ(po, right);
+				else if (-1 == poIdx) {	//不在open表 
+					EightPullze* oldRight = pc->pq[pcIdx]; 
+					if (right->fValue <= oldRight->fValue) {
+						delElem(pc, pcIdx);
+						copyNode(right, oldRight);
+						free(right);
+						insertPQ(po, oldRight);
+					}
+					else free(right);
+				}
+				else {				//不在close表
+					EightPullze* oldRight = po->pq[poIdx];
+					if (right->fValue <= oldRight->fValue) {
+						copyNode(right, oldRight);
+						free(right);
+					}
+					else free(right);
+				}
+			}
+		}
+		if (blankIdx < 6) {		//空格不在下边缘
+			EightPullze* down = createEightPullze(ei);
+			if (down) {
+				blankDown(down, blankIdx);
+				getCode(down);
+				down->fValue = getfValue(down);
+				int poIdx = find(po, down);
+				int pcIdx = find(pc, down);
+				if (-1 == poIdx && -1 == pcIdx)	//不在open和close表
+					insertPQ(po, down);
+				else if (-1 == poIdx) {	//不在open表 
+					EightPullze* oldDown = pc->pq[pcIdx];
+					if (down->fValue <= oldDown->fValue) {
+						delElem(pc, pcIdx);
+						copyNode(down, oldDown);
+						free(down);
+						insertPQ(po, oldDown);
+					}
+					else free(down);
+				}
+				else {				//不在close表
+					EightPullze* oldDown = po->pq[poIdx];
+					if (down->fValue <= oldDown->fValue)
+					{
+						copyNode(down, oldDown);
+						free(down);
+					}
+					else free(down);
+				}
+			}
+		}
+	}
+	int count = -1;
+	while (ei) {
+		PrintEightPullze(ei);
+		ei = ei->father;
+		printf("\n");
+		count++;
+	}
+	printf("空格移动次数：%d\n", count);
+	cout << "size of open: " << po->size << endl;
+	cout << "size of close: " << pc->size << endl;
+}
 void AA(void)
 {
 	//start
@@ -192,7 +365,17 @@ int main(void)
 	dFreq = (double)f.QuadPart; //获取计数器的频率
 	QueryPerformanceCounter(&start);//获取内部高精度计数器当前的计数值
 	//需要计时的代码写在这
-	AA();
+	//AA();
+	AA_PQ();
+	//int a[] = { 1,2, 3, 6,2, 9,6, 4,2,8 };
+	//MinPQ mp;
+	//createMinPQ(&mp, 11);
+	//for (int i = 0; i < 10; i++)
+	//	insertPQ(&mp, a[i]);
+	//while (!isEmpty(&mp))
+	//{
+	//	cout << delMin(&mp) << endl;
+	//}
 	QueryPerformanceCounter(&end);
 
 	double duration = (double)(end.QuadPart - start.QuadPart) / dFreq;//计算时间
